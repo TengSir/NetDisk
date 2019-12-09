@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Group xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="800.0">
+         <children>
+            <ImageView fitHeight="500.0" fitWidth="800.0" layoutX="0" layoutY="0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image requestedHeight="500" requestedWidth="800" url="@../imgs/back1.jpg" />
+               </image></ImageView>
+            <BorderPane prefHeight="500.0" prefWidth="800.0">
+               <top>
+                  <Pane prefHeight="70.0" prefWidth="800.0" style="-fx-border-color: gray;-fx-border-width: 1px;" BorderPane.alignment="CENTER">
+                     <children>
+                        <GridPane layoutY="2.0" prefHeight="70.0" prefWidth="800.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="96.0" minWidth="10.0" prefWidth="45.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="128.0" />
+                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="206.0" minWidth="10.0" prefWidth="106.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="175.0" minWidth="10.0" prefWidth="101.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="359.0" minWidth="10.0" prefWidth="95.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="444.0" minWidth="10.0" prefWidth="201.0" />
+                              <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" maxWidth="115.0" minWidth="10.0" prefWidth="43.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="99.0" minWidth="10.0" prefWidth="47.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="41.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints maxHeight="31.0" minHeight="10.0" prefHeight="23.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button mnemonicParsing="false" text="↑上传新文件" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font></Button>
+                              <Button mnemonicParsing="false" text="🗂新建文件夹" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <TextField alignment="CENTER" prefHeight="27.0" prefWidth="202.0" promptText="❍搜索" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" text="≡" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" text="⊞" GridPane.columnIndex="7" GridPane.rowIndex="1" />
+                              <Button mnemonicParsing="false" text="↻" textAlignment="CENTER" GridPane.columnIndex="8" GridPane.rowIndex="1" />
+                           </children>
+                        </GridPane>
+                     </children></Pane>
+               </top>
+               <left>
+                  <Pane prefHeight="430.0" prefWidth="177.0" style="-fx-border-color: gray;-fx-border-width: 1px;-fx-border-style: solid;" BorderPane.alignment="CENTER">
+                     <children>
+                        <VBox prefHeight="430.0" prefWidth="177.0">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="32.0" prefWidth="203.0" text="暴走程序猿(SVIP)" textFill="#000000">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <ProgressBar maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="9.0" prefWidth="137.0" progress="0.23">
+                                 <VBox.margin>
+                                    <Insets left="20.0" />
+                                 </VBox.margin>
+                              </ProgressBar>
+                              <Label alignment="CENTER" prefHeight="22.0" prefWidth="191.0" text="123G/1024G          " textFill="#000000">
+                                 <font>
+                                    <Font name="System Bold Italic" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label prefHeight="55.0" prefWidth="181.0" />
+                              <Pane prefHeight="312.0" prefWidth="177.0">
+                                 <children>
+                                    <GridPane prefHeight="309.0" prefWidth="177.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Button mnemonicParsing="false" text="≣ 全部文件">
+                                             <GridPane.margin>
+                                                <Insets left="30.0" />
+                                             </GridPane.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" text="⇪正在上传" GridPane.rowIndex="1">
+                                             <GridPane.margin>
+                                                <Insets left="30.0" />
+                                             </GridPane.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" text="⇩正在下载" GridPane.rowIndex="2">
+                                             <GridPane.margin>
+                                                <Insets left="30.0" />
+                                             </GridPane.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" text="✓传输完成" GridPane.rowIndex="3">
+                                             <GridPane.margin>
+                                                <Insets left="30.0" />
+                                             </GridPane.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" text="         会员中心         " textFill="#ee2409" GridPane.rowIndex="7">
+                                             <GridPane.margin>
+                                                <Insets left="25.0" />
+                                             </GridPane.margin>
+                                          </Button>
+                                          <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="8">
+                                             <children>
+                                                <Button mnemonicParsing="false" text="回收站">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="20.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Button mnemonicParsing="false" text="我的分享">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" top="5.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                             </children>
+                                          </HBox>
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </Pane>
+               </left>
+               <center>
+                  <FlowPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" style="-fx-border-color: gray;-fx-border-width: 1px;-fx-border-style: solid;">
+                     <children>
+                        <VBox prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray">
+                           <FlowPane.margin>
+                              <Insets left="10.0" right="10.0" top="10.0" />
+                           </FlowPane.margin>
+                           <children>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/fileicons/ICON7.gif" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="学生信息表" textFill="#000000">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray">
+                           <children>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/fileicons/ICON5.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="java大作业" textFill="#000000">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <FlowPane.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </FlowPane.margin>
+                        </VBox>
+                        <VBox prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray" >
+                           <children>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/fileicons/ICON10.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="网络编程ppt" textFill="#000000">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <FlowPane.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </FlowPane.margin>
+                        </VBox>
+                        <VBox prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray">
+                           <children>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/fileicons/ICON30.gif" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="linux配置" textFill="#000000">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <FlowPane.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </FlowPane.margin>
+                        </VBox>
+                        <VBox prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray">
+                           <children>
+                              <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../imgs/fileicons/ICON87.png" />
+                                 </image>
+                              </ImageView>
+                              <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="登陆首页" textFill="#000000">
+                                 <font>
+                                    <Font size="10.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                           <FlowPane.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </FlowPane.margin>
+                        </VBox>
+                     </children>
+                  </FlowPane>
+               </center>
+            </BorderPane>
+         </children>
+      </Pane>
+   </children>
+</Group>
