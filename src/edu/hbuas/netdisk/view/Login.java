@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class Login extends Application {
 
@@ -18,6 +19,7 @@ public class Login extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+    	
         try {
             Group  g= FXMLLoader.load(new File("resources/fxml/Login.fxml").toURL());
             Scene  s=new Scene(g,800,500);

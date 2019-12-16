@@ -20,7 +20,7 @@ public class UserDAO {
 	public boolean registerUser(User user)  throws Exception{
 		
 			Class.forName("com.mysql.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/netdisk", "root", "root");
+			Connection con=DriverManager.getConnection("jdbc:mysql://172.19.4.45:3306/netdisk", "root", "root");
 			
 			PreparedStatement  pre=con.prepareStatement("insert into user(username,password,sex,age,email) values(?,?,?,?,?)");
 			pre.setString(1, user.getUsername());
@@ -45,7 +45,7 @@ public class UserDAO {
 	public User  login (String username,String password)  throws Exception{
 		User user=null;
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/netdisk", "root", "root");
+		Connection con=DriverManager.getConnection("jdbc:mysql://172.19.4.45:3306/netdisk", "root", "root");
 		
 		PreparedStatement  pre=con.prepareStatement("select * from user where username=? and password=?");
 		pre.setString(1, username);
