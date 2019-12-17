@@ -47,7 +47,7 @@
                             <RowConstraints maxHeight="47.0" minHeight="10.0" prefHeight="47.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button  fx:id="uploadFileButton" mnemonicParsing="false" text="↑上传新文件" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <Button onAction="#uploadFile"  fx:id="uploadFileButton" mnemonicParsing="false" text="↑上传新文件" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font></Button>
@@ -65,7 +65,7 @@
                      <children>
                         <VBox prefHeight="430.0" prefWidth="177.0">
                            <children>
-                              <Label alignment="CENTER" prefHeight="32.0" prefWidth="203.0" text="暴走程序猿(SVIP)" textFill="#000000">
+                              <Label fx:id="usernameLabel" alignment="CENTER" prefHeight="32.0" prefWidth="203.0" text="暴走程序猿(SVIP)" textFill="#000000">
                                  <font>
                                     <Font name="System Bold" size="18.0" />
                                  </font>
@@ -148,7 +148,7 @@
                   </Pane>
                </left>
                <center>
-                  <FlowPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" style="-fx-border-color: gray;-fx-border-width: 1px;-fx-border-style: solid;">
+                  <FlowPane fx:id="filesPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" style="-fx-border-color: gray;-fx-border-width: 1px;-fx-border-style: solid;">
                      <children>
                         <VBox prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray">
                            <FlowPane.margin>

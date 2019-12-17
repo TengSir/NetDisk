@@ -77,6 +77,11 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
+                  <Label alignment="CENTER" prefHeight="17.0" prefWidth="150.0" text="用户电话" textAlignment="CENTER" textFill="#000000" textOverrun="CENTER_ELLIPSIS" GridPane.columnIndex="1" GridPane.rowIndex="7">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                   <TextField   fx:id="username" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                   <PasswordField   fx:id="password"  GridPane.columnIndex="2" GridPane.rowIndex="2" />
                   <PasswordField GridPane.columnIndex="2" GridPane.rowIndex="3" />
@@ -106,14 +111,15 @@
                   </GridPane>
                   <ChoiceBox  fx:id="age"  prefHeight="28.0" prefWidth="296.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
                   <TextField  fx:id="email"   GridPane.columnIndex="2" GridPane.rowIndex="6" />
+                    <TextField  fx:id="tel"   GridPane.columnIndex="2" GridPane.rowIndex="7" />
                   <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="8">
                      <children>
-                        <Button onAction="#processLogin" mnemonicParsing="false" text="立即注册">
+                        <Button onAction="#processRegister" mnemonicParsing="false" text="立即注册">
                            <HBox.margin>
                               <Insets left="10.0" right="20.0" top="10.0" />
                            </HBox.margin>
                         </Button>
-                        <Button mnemonicParsing="false" text="返回登陆">
+                        <Button  onAction="#gotoLogin" mnemonicParsing="false" text="返回登陆">
                            <HBox.margin>
                               <Insets left="40.0" right="10.0" top="10.0" />
                            </HBox.margin>

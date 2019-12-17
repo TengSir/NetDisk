@@ -54,7 +54,7 @@
                   
                   <PasswordField  fx:id="password" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                   <Button onAction="#processLogin" mnemonicParsing="false" text="立即登陆" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <Button mnemonicParsing="false" text="注册账号" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+                  <Button onAction="#gotoRegister" mnemonicParsing="false" text="注册账号" GridPane.columnIndex="2" GridPane.rowIndex="4" />
                </children>
             </GridPane>
          </children></Pane>

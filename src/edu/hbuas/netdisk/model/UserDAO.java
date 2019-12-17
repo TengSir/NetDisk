@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import edu.hbuas.netdisk.config.NetDiskConfig;
+
 /**
  * userdao是专门操作用户对象的数据库操作类
  * @author Lenovo
@@ -19,8 +21,8 @@ public class UserDAO {
 	 */
 	public boolean registerUser(User user)  throws Exception{
 		
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con=DriverManager.getConnection("jdbc:mysql://172.19.4.45:3306/netdisk", "root", "root");
+			Class.forName(NetDiskConfig.jdbcDriverClass);
+			Connection con=DriverManager.getConnection(NetDiskConfig.jdbcURL,NetDiskConfig.jdbcUsername, NetDiskConfig.jdbcPassword);
 			
 			PreparedStatement  pre=con.prepareStatement("insert into user(username,password,sex,age,email) values(?,?,?,?,?)");
 			pre.setString(1, user.getUsername());
@@ -44,8 +46,8 @@ public class UserDAO {
 	 */
 	public User  login (String username,String password)  throws Exception{
 		User user=null;
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection con=DriverManager.getConnection("jdbc:mysql://172.19.4.45:3306/netdisk", "root", "root");
+		Class.forName(NetDiskConfig.jdbcDriverClass);
+		Connection con=DriverManager.getConnection(NetDiskConfig.jdbcURL,NetDiskConfig.jdbcUsername, NetDiskConfig.jdbcPassword);
 		
 		PreparedStatement  pre=con.prepareStatement("select * from user where username=? and password=?");
 		pre.setString(1, username);
