@@ -1,6 +1,8 @@
 package edu.hbuas.netdisk.model;
 
+import java.io.File;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * 这个类是封装一个网盘消息类型，在每次真正IO动作之前，先发送Message对象，通知服务器我准备执行什么操作
@@ -11,12 +13,19 @@ public class Message  implements Serializable{
 
 	private String fromUser;//发送消息的网盘客户端用户名
 	private MessageType  type;//消息类型
+	private Set<File> allFiles;//消息中可以存储多个文件的属性
+	public Set<File> getAllFiles() {
+		return allFiles;
+	}
+	public void setAllFiles(Set<File> allFiles) {
+		this.allFiles = allFiles;
+	}
 	private String filename;//要操作的文件名
 	private long fileLength;//文件的长度
 	@Override
 	public String toString() {
-		return "Message [fromUser=" + fromUser + ", type=" + type + ", filename=" + filename + ", fileLength="
-				+ fileLength + "]";
+		return "Message [fromUser=" + fromUser + ", type=" + type + ", allFiles=" + allFiles + ", filename=" + filename
+				+ ", fileLength=" + fileLength + "]";
 	}
 	public Message() {
 		super();

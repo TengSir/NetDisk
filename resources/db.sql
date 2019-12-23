@@ -3,7 +3,7 @@
 
 DROP TABLE USER;
 
-
+Create Database NetDisk charset=UTF8;
 
 
 /* Create Tables */

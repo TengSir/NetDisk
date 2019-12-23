@@ -4,10 +4,14 @@ package edu.hbuas.netdisk.control;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+
+import com.sun.org.apache.bcel.internal.generic.LALOAD;
 
 import edu.hbuas.netdisk.config.NetDiskConfig;
 import edu.hbuas.netdisk.model.Message;
@@ -16,11 +20,15 @@ import edu.hbuas.netdisk.model.User;
 import edu.hbuas.netdisk.util.ControllData;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 public class MainControl implements Initializable {
@@ -40,6 +48,50 @@ public class MainControl implements Initializable {
     	ControllData.allControllers.put("Main", this);//在控制器初始化的代码中将当前控制器存入到一个公共的集合中，方便其他控制器如果想使用当前控制器对象时直接可以从集合里找出来
     	 user=((LoginControl)ControllData.allControllers.get("Login")).getUser();//通过公共的集合获取LoginControl对象中的user属性
     	usernameLabel.setText(user.getUsername());//将登陆时查询的用户信息更新到主窗口的ui上
+    	
+    	
+    	/**
+    	 * 这是主窗口加载前必须执行的控制器的初始化方法
+    	 * 我们在这里建立一个socket连接，
+    	 * 提前将当前用户的文件列表从服务器读取过来，
+    	 * 然后更新到当前用户的主窗口列表里
+    	 */
+    	
+    	try {
+			Socket  client=new Socket(NetDiskConfig.netDiskServerIP,NetDiskConfig.netDiskServerPort);
+			ObjectOutputStream  out=new ObjectOutputStream(client.getOutputStream());
+			ObjectInputStream  in=new ObjectInputStream(client.getInputStream());
+			
+			//封装一个加载文件的消息，通知服务器我要读取我的文件列表
+			Message  loadFiles=new  Message();
+			loadFiles.setFromUser(user.getUsername());
+			loadFiles.setType(MessageType.LOADFILES);
+			
+			//使用socket的流讲当前消息对象发送给服务器
+			out.writeObject(loadFiles);
+			out.flush();
+			
+			//消息发送完毕后，服务期接收到就会处理，然后会回复我们一个结果
+			//这里需要使用socket的输入流读取服务器给我的结果
+			Message allFiles=(Message)in.readObject();
+			System.out.println(allFiles);
+			
+			
+			
+			for(File  f:allFiles.getAllFiles()) {
+				System.out.println(f.getName());
+				//在解析所有文件列表之前应该先加载设计好的单个文件UI控件XML
+//				Group  oneFile=FXMLLoader.load(new File("resources/fxml/File.fxml").toURL());
+				
+				TextField  text=new TextField();
+				text.setText(f.getName());
+				//循环一次，读取到一个文件，然后加载一个文件的Vbox控件
+				//然后将这个文件组件加到网盘的右边显示文件列表的pane里面
+				filesPane.getChildren().add(text);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
     
     /**

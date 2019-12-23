@@ -10,5 +10,6 @@ import java.io.Serializable;
 public enum MessageType  implements Serializable {
 
 	UPLOAD,
-	DOWNLOAD
+	DOWNLOAD,
+	LOADFILES
 }
