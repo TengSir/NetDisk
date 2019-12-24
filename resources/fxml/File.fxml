@@ -1,4 +1,4 @@
- <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
  
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
@@ -17,25 +17,22 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<Group xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1">
-   <children>
- <VBox    prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray">
+
+ <VBox  xmlns="http://javafx.com/javafx/8.0.999-ea" xmlns:fx="http://javafx.com/fxml/1"  fx:controller="edu.hbuas.netdisk.control.FileControl"   prefHeight="80.0" prefWidth="60.0" style="-fx-border-width: 1px;-fx-border-style: solid;-fx-border-color: gray;-fx-margin-top:10px;-fx-margin-left:10px">
    <FlowPane.margin>
       <Insets left="10.0" right="10.0" top="10.0" />
    </FlowPane.margin>
    <children>
-      <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="fileImage" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../imgs/fileicons/ICON7.gif" />
+            <Image  url="@../imgs/fileicons/ICON7.gif" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="学生信息表" textFill="#000000">
+      <Label fx:id="fileName" alignment="CENTER" prefHeight="21.0" prefWidth="60.0" text="学生信息表" textFill="#000000">
          <font>
             <Font size="10.0" />
          </font>
       </Label>
    </children>
 </VBox>
-</children>
-</Group>
   

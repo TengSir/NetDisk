@@ -33,6 +33,7 @@ public class LoginControl implements Initializable {
 	@FXML
 	public void processLogin(ActionEvent event) {
 		
+		
 		//1.获取注册界面上的用户名和密码
 		String usernameInput=username.getText();
 		String passwordInput=password.getText();
@@ -62,6 +63,9 @@ public class LoginControl implements Initializable {
 	}
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    	//给登陆框的用户名和密码初始化一个账户下信息，方便打开测试用
+    	username.setText("test");
+		password.setText("test");
     	ControllData.allControllers.put("Login", this);
     	dao=new UserDAO();
     }
