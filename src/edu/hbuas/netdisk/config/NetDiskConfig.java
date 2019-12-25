@@ -6,10 +6,10 @@ package edu.hbuas.netdisk.config;
  */
 public interface NetDiskConfig {
 	public String jdbcDriverClass="com.mysql.jdbc.Driver";
-	public String jdbcURL="jdbc:mysql://192.168.43.48:3306/netdisk?useSSL=false";
+	public String jdbcURL="jdbc:mysql://localhost:3306/netdisk?useSSL=false";
 	public String jdbcUsername="root";
 	public String jdbcPassword="root";
-	public String netDiskServerIP="192.168.43.48";
+	public String netDiskServerIP="localhost";
 	public int netDiskServerPort=9999;
 
 }

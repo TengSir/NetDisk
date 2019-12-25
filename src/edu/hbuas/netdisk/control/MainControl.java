@@ -11,19 +11,15 @@ import java.io.ObjectOutputStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.Iterator;
+import java.util.Optional;
 import java.util.ResourceBundle;
-
-import javax.sound.midi.Soundbank;
-
-import com.sun.glass.events.MouseEvent;
 
 import edu.hbuas.netdisk.config.NetDiskConfig;
 import edu.hbuas.netdisk.model.Message;
 import edu.hbuas.netdisk.model.MessageType;
 import edu.hbuas.netdisk.model.User;
 import edu.hbuas.netdisk.util.ControllData;
+import edu.hbuas.netdisk.view.ToastMessagge;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -32,14 +28,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.fxml.JavaFXBuilderFactory;
 import javafx.geometry.Side;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.SeparatorMenuItem;
+import javafx.scene.control.Tooltip;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -60,7 +60,7 @@ public class MainControl implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
     	ControllData.allControllers.put("Main", this);//在控制器初始化的代码中将当前控制器存入到一个公共的集合中，方便其他控制器如果想使用当前控制器对象时直接可以从集合里找出来
     	 user=((LoginControl)ControllData.allControllers.get("Login")).getUser();//通过公共的集合获取LoginControl对象中的user属性
-    	usernameLabel.setText(user.getUsername());//将登陆时查询的用户信息更新到主窗口的ui上
+    	 usernameLabel.setText(user.getUsername());//将登陆时查询的用户信息更新到主窗口的ui上
     	
     	
     	/**
@@ -69,8 +69,15 @@ public class MainControl implements Initializable {
     	 * 提前将当前用户的文件列表从服务器读取过来，
     	 * 然后更新到当前用户的主窗口列表里
     	 */
+    	listFilesOfUserFromServer();//调用加载文件列表的方法
     	
+    }
+    /**
+     * 加载服务器上用户文件列表的方法
+     */
+    public void listFilesOfUserFromServer() {
     	try {
+    		//先和服务器建立socket网络链接
 			Socket  client=new Socket(NetDiskConfig.netDiskServerIP,NetDiskConfig.netDiskServerPort);
 			ObjectOutputStream  out=new ObjectOutputStream(client.getOutputStream());
 			ObjectInputStream  in=new ObjectInputStream(client.getInputStream());
@@ -87,18 +94,14 @@ public class MainControl implements Initializable {
 			//消息发送完毕后，服务期接收到就会处理，然后会回复我们一个结果
 			//这里需要使用socket的输入流读取服务器给我的结果
 			Message allFiles=(Message)in.readObject();
-			System.out.println(allFiles);
 			
-			
-			
+			//遍历解析服务器给我返回的我的所有文件集合并将文件一一读取出来，然后更新显示到网盘的列表里
 			for(File  f:allFiles.getAllFiles()) {
-				System.out.println(f.getName());
-				//在解析所有文件列表之前应该先加载设计好的单个文件UI控件XML
+			     	//循环一次，读取到一个文件，然后加载一个文件的Vbox控件
+				   //在解析所有文件列表之前应该先加载设计好的单个文件UI控件XML
 			        VBox oneFile = addFileItem(f);//生成一个FileIteam对象，然后添加到网盘右边的文件列表面板中
-			        
-			      //循环一次，读取到一个文件，然后加载一个文件的Vbox控件
-				//然后将这个文件组件加到网盘的右边显示文件列表的pane里面
-				filesPane.getChildren().add(oneFile);
+					//然后将这个文件组件加到网盘的右边显示文件列表的pane里面
+					filesPane.getChildren().add(oneFile);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,12 +129,17 @@ public class MainControl implements Initializable {
 				  control.getFileImage().setImage(new Image(new FileInputStream("resources/imgs/fileicons/dir.png")));
 			}else{
 				String fileType=f.getName().substring(f.getName().lastIndexOf(".")+1,f.getName().length());
-				 control.getFileImage().setImage(new Image(new FileInputStream("resources/imgs/fileicons/"+fileType+".gif")));
+				if(new File("resources/imgs/fileicons/"+fileType+".gif").exists()) {//判断文件类型加载对应的文件图标
+					control.getFileImage().setImage(new Image(new FileInputStream("resources/imgs/fileicons/"+fileType+".gif")));
+				}else {
+					 control.getFileImage().setImage(new Image(new FileInputStream("resources/imgs/fileicons/file.gif")));	
+				}
 			}
 		} catch (Exception e) {
-			System.out.println("一个文件无法加载");
 		}
 		control.getFileName().setText(f.getName());//更新文件名
+		control.getFileName().setTooltip(new Tooltip(f.getName()));
+		//添加鼠标在文件ui组件上的点击事件
 		oneFile.setOnMouseClicked(new EventHandler<Event>() {
         	@Override
         	public void handle(Event event) {
@@ -139,15 +147,32 @@ public class MainControl implements Initializable {
         		
         		if(me.getButton()==MouseButton.SECONDARY&&me.getClickCount()==1) {
         			//鼠标邮件单击当前的FIleItem对象时执行的事件代码
-        			System.out.println("right one click");
         			// ContextMenu生成弹出菜单
         			ContextMenu  rightMenu=new ContextMenu();
-        			MenuItem  item1=new MenuItem("下载");
-        			item1.setOnAction(new EventHandler<ActionEvent>() {
+        			MenuItem  down=new MenuItem("下载");
+        			MenuItem  delete=new MenuItem("删除");
+        			MenuItem  move=new MenuItem("移动");
+        			MenuItem  rename=new MenuItem("重命名");
+        			rightMenu.getItems().add(down);
+        			rightMenu.getItems().add(new SeparatorMenuItem());
+        			rightMenu.getItems().add(delete);
+        			rightMenu.getItems().add(new SeparatorMenuItem());
+        			rightMenu.getItems().add(move);
+        			rightMenu.getItems().add(new SeparatorMenuItem());
+        			rightMenu.getItems().add(rename);
+        			rightMenu.setPrefSize(100, 60);
+        			down.setOnAction(new EventHandler<ActionEvent>() {
         				@Override
         				public void handle(ActionEvent event) {
         						//当用户点击对应文件的下载按钮时应该执行的方法
         					String willDownloadFilename=((Label)oneFile.getChildren().get(1)).getText();//获得用户要想下载的文件名
+        					
+        				   //弹出文件选择框，让用户选择文件保存路径
+					   FileChooser  fc=new FileChooser();
+					   fc.setTitle("保存路径");
+					   fc.setInitialFileName(willDownloadFilename);
+					   File  savePath=fc.showSaveDialog(oneFile.getScene().getWindow());
+					   if(savePath==null)return;//如果用户取消了，终止后续操作
         					
         					//封装一个Message对象发送给服务器，通知服务器我想要下载
         					Message  downloadMessage=new Message();
@@ -155,43 +180,104 @@ public class MainControl implements Initializable {
         					downloadMessage.setType(MessageType.DOWNLOAD);
         					downloadMessage.setFilename(willDownloadFilename);
         					
-        					//使用socket
+        					//创建socket链接，使用socket链接将消息发送给服务器
+        					Socket  client=null;
+        					 ObjectOutputStream  out=null;
+        					 ObjectInputStream   in=null;
+        					 FileOutputStream  fileOut=null;
         					try {
-								Socket  client=new Socket(NetDiskConfig.netDiskServerIP,NetDiskConfig.netDiskServerPort);
-							   ObjectOutputStream  out=new ObjectOutputStream(client.getOutputStream());
-							   ObjectInputStream   in=new ObjectInputStream(client.getInputStream());
+								  client=new Socket(NetDiskConfig.netDiskServerIP,NetDiskConfig.netDiskServerPort);
+							     out=new ObjectOutputStream(client.getOutputStream());
+							      in=new ObjectInputStream(client.getInputStream());
 							   out.writeObject(downloadMessage);
 							   out.flush();
-							   //在真正传输之前弹出文件选择框，让用户选择文件保存路径
-							   FileChooser  fc=new FileChooser();
-							   File  savePath=fc.showSaveDialog(oneFile.getScene().getWindow());
-							   if(!savePath.exists())savePath.mkdirs();//文件路径不存在，则新建目录
+							 
 							   //准备一个文件输出流，指向用户要保存的文件路径
-							   FileOutputStream  fileOut=new FileOutputStream(new File(savePath,willDownloadFilename));
+							    fileOut=new FileOutputStream(savePath);
 							   //把Message发送给服务器之后就应该使用输入流等待服务器给我回发对应的文件数据
 							   byte[]  bs=new byte[1024];
 							   int length=-1;
 							   while((length=in.read(bs))!=-1) {
 								   fileOut.write(bs,0,length);
 							   }
-							   //文件传输完毕，关闭资源，关闭socket通道
-							   fileOut.flush();
-							   fileOut.close();
-							   client.close();
-							   //文件传输完毕后弹框提示
-								Alert  a=new Alert(Alert.AlertType.INFORMATION);
-								a.setContentText("文件下载成功");
-								a.show();
+							  //文件传输完毕后弹框提示
+							   ToastMessagge.toast("文件下载成功！", 2000,oneFile.getScene().getWindow());//调用封装好的toast消息显示下载结果
         					} catch (Exception e){
 								e.printStackTrace();
+						}finally {
+							 //文件传输完毕，关闭资源，关闭socket通道
+							   try {
+								 fileOut.flush();
+								  fileOut.close();
+								  out.close();
+								  in.close();
+								   client.close();
+							} catch (IOException e) {
+								e.printStackTrace();
 							}
-        				}
+							   
+						}
+        				 }
 					});
-        			MenuItem  item2=new MenuItem("删除");
-        			rightMenu.getItems().add(item1);
-        			rightMenu.getItems().add(item2);
-        			rightMenu.setPrefSize(100, 60);
-        			rightMenu.show(oneFile, Side.BOTTOM, 0, 10);
+        			delete.setOnAction(new EventHandler<ActionEvent>() {
+        				@Override
+        				public void handle(ActionEvent event) {
+        					//当用户点击对应文件的删除按钮时应该执行的方法
+        					String willDeleteFilename=((Label)oneFile.getChildren().get(1)).getText();//获得用户要想删除的文件名
+        					
+        					//先弹出确认对话框，提示用户是否删除
+        					Alert  a=new Alert(AlertType.CONFIRMATION);
+        					a.setTitle("删除提示");
+        					a.setHeaderText("您确认删除这个文件吗？");
+        					a.setContentText("文件名["+willDeleteFilename+"]");
+        					a.showAndWait();
+        					if(a.getResult()==ButtonType.OK) {//判断如果用户点击了确认删除，则执行删除操作
+	        						//封装一个Message发送给服务器通知服务器想要执行删除操作
+	            					Message  deleteMessage=new Message();
+	            					deleteMessage.setFromUser(user.getUsername());
+	            					deleteMessage.setFilename(willDeleteFilename);
+	            					deleteMessage.setType(MessageType.DELETE);
+	            					
+	            					//建立socket链接
+	            					Socket  client=null;
+	           					 ObjectOutputStream  out=null;
+	           					 ObjectInputStream   in=null;
+	           					try {
+	    								  client=new Socket(NetDiskConfig.netDiskServerIP,NetDiskConfig.netDiskServerPort);
+	    							     out=new ObjectOutputStream(client.getOutputStream());
+	    							      in=new ObjectInputStream(client.getInputStream());
+	    							      //使用socket的输出流将删除消息发送给服务器
+	    							   out.writeObject(deleteMessage);
+	    							   out.flush();
+	    							   //发送完之后接受服务器给客户端回发的删除结果消息
+	    							  Message deleteResult=(Message)in.readObject();
+	    							  
+	    							//根据服务器回发的删除结果弹出消息提示用户
+	    							  if(deleteResult.getFromUser().equals("true")) {
+	    								  //删除成功还要从用户的网盘窗口上将这个文件的FIleItem组件从ui上删除
+	    								  filesPane.getChildren().remove(oneFile);
+	    								  ToastMessagge.toast("文件删除成功！", 2000,filesPane.getScene().getWindow());//调用封装好的toast消息显示下载结果
+	    							  }else {
+	    								  ToastMessagge.toast("文件删除失败！", 2000,filesPane.getScene().getWindow());//调用封装好的toast消息显示下载结果
+	    							  }
+	           					} catch (Exception e){
+	    								e.printStackTrace();
+	    						}finally {
+	    							 //文件传输完毕，关闭资源，关闭socket通道
+	    							  try {
+	    								  out.close();
+	    								in.close();
+	    								client.close();
+	    							} catch (IOException e) {
+	    								e.printStackTrace();
+	    							}
+	    						}
+        					}
+        				}
+				});
+        			int mouseX=(int)((MouseEvent)event).getScreenX();
+        			int mouseY=(int)((MouseEvent)event).getScreenY();
+        			rightMenu.show(oneFile, mouseX, mouseY);
         			
         		}else if(me.getButton()==MouseButton.PRIMARY&&me.getClickCount()==2) {
         			//当鼠标左键双击当时候执行的事件代码
@@ -199,19 +285,6 @@ public class MainControl implements Initializable {
         		}
         	}
 	});
-//		oneFile.setOnMouseClicked(new EventHandler<Event>() {
-//			@Override
-//			public void handle(Event e) {
-//				ContextMenu  menu=new ContextMenu();
-//				menu.getItems().add(new MenuItem("download"));
-//				menu.setPrefSize(100, 40);
-//				menu.setX(10);
-//				menu.show(oneFile, Side.BOTTOM, -20, -20);
-//				menu.show(oneFile.getScene().getWindow());
-//			}
-//		});
-		
-		
 		return oneFile;
 	}
     
@@ -223,7 +296,6 @@ public class MainControl implements Initializable {
     public void uploadFile(ActionEvent event) {
     	Socket  client=null;
 		ObjectOutputStream  out=null;
-		System.out.println("点击上传按钮");
 		//1.弹出一个文件选择框，让用户选择文件
 		FileChooser  fc=new FileChooser();
 		File  selectFile=fc.showOpenDialog(uploadFileButton.getScene().getWindow());
@@ -259,9 +331,8 @@ public class MainControl implements Initializable {
 				out.write(bs,0,length);
 				out.flush();
 			}
-			Alert  a=new Alert(Alert.AlertType.INFORMATION);
-			a.setContentText("文件上传成功");
-			a.show();
+			//上传完毕，弹出消息提示框
+			ToastMessagge.toast("文件上传成功！", 2000,uploadFileButton.getScene().getWindow());//调用封装好的toast消息显示下载结果
 			fileIn.close();
 			out.close();
 			client.close();

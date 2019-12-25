@@ -11,5 +11,6 @@ public enum MessageType  implements Serializable {
 
 	UPLOAD,
 	DOWNLOAD,
-	LOADFILES
+	LOADFILES,
+	DELETE
 }

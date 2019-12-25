@@ -23,6 +23,7 @@ public class Register extends Application {
             Scene  s=new Scene(g,800,500);
             primaryStage.setTitle("Java网盘");
             primaryStage.setScene(s);
+            primaryStage.setResizable(false);
             primaryStage.show();
         } catch (IOException e) {
             e.printStackTrace();
